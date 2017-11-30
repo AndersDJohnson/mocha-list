@@ -1,0 +1,33 @@
+{
+  "name": "mocha-list",
+  "version": "1.0.0",
+  "description": "A mocha UI & reporter to list tests without running.",
+  "main": "dist/index.js",
+  "repository": "AndersDJohnson/mocha-list",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --ignore '*.test.js,__tests__/*' -d dist",
+    "link-self": "yarn link && yarn link mocha-list",
+    "test": "yarn test:prog && yarn test:prog:simple && yarn test:prog:files && yarn test:src && yarn test:dist",
+    "test:prog": "babel-node tests/programmatic | yarn assert",
+    "test:prog:simple": "babel-node tests/programmatic-simple | yarn assert",
+    "test:prog:files": "babel-node tests/programmatic-files | yarn assert",
+    "test:src": "mocha --require ./src/index.babel.js --ui mocha-list --reporter mocha-list tests/runs | yarn assert",
+    "test:dist": "mocha --ui mocha-list --reporter mocha-list tests/runs | yarn assert",
+    "assert": "stdin-equals 'something to test\n should work\n O should only\n X should skip\n'"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "indent": "^0.0.2",
+    "lodash.get": "^4.4.2",
+    "lodash.noop": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "mocha": "^4.0.1",
+    "stdin-equals": "^1.0.0"
+  }
+}
